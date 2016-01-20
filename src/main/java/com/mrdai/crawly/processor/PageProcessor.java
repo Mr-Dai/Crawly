@@ -11,6 +11,8 @@ import com.mrdai.crawly.ResultItems;
  */
 public interface PageProcessor {
 
+    boolean supports(Page page);
+
     ResultItems process(Page page);
 
 }

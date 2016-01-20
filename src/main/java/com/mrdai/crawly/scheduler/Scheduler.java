@@ -14,8 +14,21 @@ import com.mrdai.crawly.Request;
  */
 public interface Scheduler {
 
+    /**
+     * Pushes the given {@code Request} to the waiting list and returns {@code true} upon success.
+     * <p>
+     * Many reason can result in a failed push, including insufficient memory or duplicate entry,
+     * which should be determined by concrete implementations.
+     *
+     * @param request the {@code Request} to be pushed to the waiting list
+     * @return {@code true} if the {@code Request} was added successfully; otherwise {@code false}
+     */
     boolean push(Request request);
 
+    /**
+     * Retrieves and removes a {@code Request} from the waiting list. Returns {@code null}
+     * if no more entry can be found.
+     */
     Request poll();
 
 }

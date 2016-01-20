@@ -17,5 +17,11 @@ import com.mrdai.crawly.Request;
  * @see Page
  */
 public interface Downloader {
+    /**
+     * Downloads web page designated by the given {@code Request} and stores it in a {@code Page} object.
+     *
+     * @param request the given {@code Request}, designating the web page to be downloaded
+     * @return the downloaded web page
+     */
     Page download(Request request);
 }
