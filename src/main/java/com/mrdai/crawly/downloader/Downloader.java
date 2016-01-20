@@ -15,6 +15,9 @@ import com.mrdai.crawly.Request;
  *
  * @see Request
  * @see Page
+ *
+ * @author Mr-Dai
+ * @since 0.1
  */
 public interface Downloader {
     /**

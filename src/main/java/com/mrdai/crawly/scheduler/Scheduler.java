@@ -11,6 +11,9 @@ import com.mrdai.crawly.Request;
  *     with a {@link #push(Request)} method for adding more target URLs to the crawler
  *     and a {@link #poll()} method for retrieving next URL to crawl.
  * </p>
+ *
+ * @author Mr-Dai
+ * @since 0.1
  */
 public interface Scheduler {
 
@@ -21,7 +24,7 @@ public interface Scheduler {
      * which should be determined by concrete implementations.
      *
      * @param request the {@code Request} to be pushed to the waiting list
-     * @return {@code true} if the {@code Request} was added successfully; otherwise {@code false}
+     * @return {@code true} if the {@code Request} was added successfully, {@code false} otherwise
      */
     boolean push(Request request);
 

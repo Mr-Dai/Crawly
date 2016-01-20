@@ -55,6 +55,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @see Downloader
  * @see PageProcessor
  * @see Pipeline
+ *
+ * @author Mr-Dai
+ * @since 0.1
  */
 public abstract class Crawler implements Runnable {
     private static final Logger LOG = LoggerFactory.getLogger(Crawler.class);

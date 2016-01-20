@@ -18,6 +18,9 @@ import com.mrdai.crawly.ResultItems;
  * </p>
  *
  * @see ResultItems
+ *
+ * @author Mr-Dai
+ * @since 0.1
  */
 public interface Pipeline {
 

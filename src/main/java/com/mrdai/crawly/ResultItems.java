@@ -20,6 +20,9 @@ import java.util.Map;
  *     which should be good enough for most cases. For instantiating a {@code ResultItems} using
  *     customized {@code Map} class, see {@link #ResultItems(Class)}.
  * </p>
+ *
+ * @author Mr-Dai
+ * @since 0.1
  */
 public class ResultItems {
     private static final Logger LOG = LoggerFactory.getLogger(ResultItems.class);
