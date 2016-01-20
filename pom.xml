@@ -10,6 +10,13 @@
   <name>crawly</name>
   <url>http://maven.apache.org</url>
 
+  <developers>
+    <developer>
+      <name>Mr.Dai</name>
+      <url>http://mr-dai.github.io/</url>
+    </developer>
+  </developers>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -20,6 +27,11 @@
       <artifactId>junit</artifactId>
       <version>4.12</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.13</version>
     </dependency>
   </dependencies>
 </project>
