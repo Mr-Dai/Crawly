@@ -102,11 +102,23 @@ public abstract class Crawler implements Runnable {
      * Asserts the {@code Crawler} is initializing, and throws an {@link IllegalStateException}
      * with the given message if the assertion failed.
      *
-     * @param message the message to be wrapped in the {@code IllegealStateException}
+     * @param message the message to be wrapped in the {@code IllegalStateException}
      * @throws IllegalStateException if the {@code Crawler} has already started
      */
     protected void assertInitializing(String message) {
         if (!state.compareAndSet(INITIALIZING, INITIALIZING))
+            throw new IllegalStateException(message);
+    }
+
+    /**
+     * Asserts the {@code Crawler} is running, and throws an {@link IllegalStateException}
+     * with the given message if the assertion failed.
+     *
+     * @param message the message to be wrapped in the {@code IllegalStateException}
+     * @throws IllegalStateException if the {@code Crawler} is not running
+     */
+    protected void assertRunning(String message) {
+        if (!state.compareAndSet(RUNNING, RUNNING))
             throw new IllegalStateException(message);
     }
 
@@ -129,6 +141,8 @@ public abstract class Crawler implements Runnable {
             throw new IllegalStateException("Failed to start the crawler, as the crawler has already started.");
 
         // TODO Crawls
+
+        state.compareAndSet(RUNNING, ENDED); // TODO what if the crawler is not running?
     }
 
     /**
