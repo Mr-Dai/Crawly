@@ -24,7 +24,7 @@ import java.util.function.Consumer;
  * @author Mr-Dai
  * @since 0.1
  */
-public class ResultItems {
+public class ResultItems implements Iterable<Map.Entry<String, Object>> {
     private static final Logger LOG = LoggerFactory.getLogger(ResultItems.class);
 
     Map<String, Object> resultItems;
@@ -52,7 +52,7 @@ public class ResultItems {
         return resultItems.get(key);
     }
 
-    public Set<Map.Entry<String, Object>> entrySet() {
-        return resultItems.entrySet();
+    public Iterator<Map.Entry<String, Object>> iterator() {
+        return resultItems.entrySet().iterator();
     }
 }

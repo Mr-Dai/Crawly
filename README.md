@@ -12,5 +12,5 @@ Currently the project is still under construction and is way behind its first re
 - [ ] Write default implementation for `Downloader` and `PageProcessor`.
 - [ ] Implement `Request`.
 - [ ] Implement `Page`.
-- [ ] Implement multi-thread support for `Crawler`.
 - [ ] Enrich the API of `ResultItems`.
+- [ ] Implement multi-thread support for `Crawler`.

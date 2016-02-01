@@ -9,4 +9,7 @@ package com.mrdai.crawly;
  * @since 0.1
  */
 public class Page {
+    private Request request;
+    private int statusCode;
+    private String rawContent;
 }

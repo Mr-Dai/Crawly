@@ -11,6 +11,11 @@ import com.mrdai.crawly.Request;
  *     with a {@link #push(Request)} method for adding more target URLs to the crawler
  *     and a {@link #poll()} method for retrieving next URL to crawl.
  * </p>
+ * <p>
+ *     For each call to {@link #poll()}, the {@code Scheduler} must return a brand-new {@code Request}.
+ *     Reusing {@code Request} instance(s) might cause many problems, as {@code Request} is
+ *     not thread-safe.
+ * </p>
  *
  * @author Mr-Dai
  * @since 0.1
@@ -31,6 +36,11 @@ public interface Scheduler {
     /**
      * Retrieves and removes a {@code Request} from the waiting list. Returns {@code null}
      * if no more entry can be found.
+     * <p>
+     *     For each call to this method, it must return a brand-new {@code Request}.
+     *     Reusing {@code Request} instance(s) might cause many problems, as {@code Request} is
+     *     not thread-safe.
+     * </p>
      */
     Request poll();
 

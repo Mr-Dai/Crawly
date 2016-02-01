@@ -1,9 +1,9 @@
-package com.mrdai.crawly.network;
+package com.mrdai.crawly.network.http;
 
 /**
  * Constant header field names of HTTP request and response
  */
-public abstract class HTTPHeader {
+public abstract class HttpHeader {
 
     /* Request Headers */
 

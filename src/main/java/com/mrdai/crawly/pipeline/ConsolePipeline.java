@@ -10,7 +10,7 @@ import java.util.Map;
 public class ConsolePipeline implements Pipeline {
 
     public boolean process(ResultItems resultItems) {
-        for (Map.Entry<String, Object> entry : resultItems.entrySet())
+        for (Map.Entry<String, Object> entry : resultItems)
             System.out.println(entry.getKey() + ": " + entry.getValue());
         System.out.println("===================================");
 
