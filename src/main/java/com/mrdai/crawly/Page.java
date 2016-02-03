@@ -18,7 +18,7 @@ public class Page {
     private int statusCode;
     private Map<String, String> responseHeaders;
     private String rawBody;
-    private Map<Class<?>, Object> parsedResults = new HashMap<Class<?>, Object>();
+    private Map<Class<?>, Object> parsedResults = new HashMap<>();
 
     /**
      * Selects element from the body of the page using the given {@link Selector}

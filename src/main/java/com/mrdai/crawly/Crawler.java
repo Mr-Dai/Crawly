@@ -94,8 +94,8 @@ public abstract class Crawler implements Runnable {
     public Crawler(Scheduler scheduler, Downloader downloader) {
         this.scheduler = scheduler;
         this.downloader = downloader;
-        processors = new ArrayList<PageProcessor>();
-        pipelines = new ArrayList<Pipeline>();
+        processors = new ArrayList<>();
+        pipelines = new ArrayList<>();
     }
 
     /**
@@ -154,7 +154,7 @@ public abstract class Crawler implements Runnable {
     public void addProcessor(PageProcessor processor) {
         assertInitializing("Cannot add new processor as the crawler has already started.");
         if (processors == null)
-            processors = new ArrayList<PageProcessor>();
+            processors = new ArrayList<>();
         processors.add(processor);
     }
 
@@ -167,7 +167,7 @@ public abstract class Crawler implements Runnable {
     public void addPipeline(Pipeline pipeline) {
         assertInitializing("Cannot add new pipeline as the crawler has already started.");
         if (pipelines == null)
-            pipelines = new ArrayList<Pipeline>();
+            pipelines = new ArrayList<>();
         pipelines.add(pipeline);
     }
 

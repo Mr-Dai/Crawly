@@ -30,7 +30,7 @@ public class ResultItems implements Iterable<Map.Entry<String, Object>> {
     Map<String, Object> resultItems;
 
     public ResultItems() {
-        resultItems = new HashMap<String, Object>();
+        resultItems = new HashMap<>();
     }
 
     public ResultItems(Class<? extends Map> mapClass) {

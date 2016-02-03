@@ -17,7 +17,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 public class BlockingQueueScheduler implements Scheduler {
     private static final Logger LOG = LoggerFactory.getLogger(BlockingQueueScheduler.class);
 
-    private BlockingQueue<Request> queue = new LinkedBlockingDeque<Request>();
+    private BlockingQueue<Request> queue = new LinkedBlockingDeque<>();
 
     public boolean push(Request request) {
         return queue.add(request);
