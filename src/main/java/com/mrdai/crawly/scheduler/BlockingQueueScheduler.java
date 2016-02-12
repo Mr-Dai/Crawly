@@ -19,10 +19,12 @@ public class BlockingQueueScheduler implements Scheduler {
 
     private BlockingQueue<Request> queue = new LinkedBlockingDeque<>();
 
+    @Override
     public boolean push(Request request) {
         return queue.add(request);
     }
 
+    @Override
     public Request poll() {
         return queue.poll();
     }

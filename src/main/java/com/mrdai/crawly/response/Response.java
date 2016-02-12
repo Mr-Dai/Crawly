@@ -1,5 +1,6 @@
-package com.mrdai.crawly;
+package com.mrdai.crawly.response;
 
+import com.mrdai.crawly.Request;
 import com.mrdai.crawly.selector.Selector;
 
 import java.util.HashMap;
@@ -7,13 +8,13 @@ import java.util.Map;
 
 /**
  * <p>
- *     A {@code Page} represents a target web page fetched by {@code Downloader}.
+ *     A {@code Response} represents a network response fetched by {@code Downloader}.
  * </p>
  *
  * @author Mr-Dai
  * @since 0.1
  */
-public class Page {
+public class Response {
     private Request request;
     private int statusCode;
     private Map<String, String> responseHeaders;

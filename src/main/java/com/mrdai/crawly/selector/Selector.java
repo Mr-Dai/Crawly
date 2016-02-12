@@ -1,6 +1,6 @@
 package com.mrdai.crawly.selector;
 
-import com.mrdai.crawly.Page;
+import com.mrdai.crawly.response.Response;
 
 /**
  * <p>
@@ -21,24 +21,24 @@ import com.mrdai.crawly.Page;
  *     Of course, it would be unnecessary to parse the page repeatedly for every selection.
  * </p>
  * <p>
- *     In this case, every {@code Page} object holds the parsed result for every type designated by
- *     {@link #getParsedType()} of every different {@code Selector}. Before the selection happens, the {@code Page} object
- *     will invoke {@link #getParsedType()} and see if the page has already been parsed for this type before. If it does,
+ *     In this case, every {@code Response} object holds the parsed result for every type designated by
+ *     {@link #getParsedType()} of every different {@code Selector}. Before the selection happens, the {@code Response} object
+ *     will invoke {@link #getParsedType()} and see if the page has already been parsed to this type before. If it does,
  *     the parsed result will be passed to {@link #select(Object)}; otherwise, the {@link #parse(String)} method will be
  *     invoked to parse the whole page, and the result will be cached and passed to {@link #select(Object)}.
  * </p>
  * <p>
- *     For more information of this procedure, see the source code of {@link Page#select(Selector)}.
+ *     For more information of this procedure, see the source code of {@link Response#select(Selector)}.
  * </p>
  *
- * @see Page#select(Selector)
+ * @see Response#select(Selector)
  *
  * @author Mr-Dai
  */
 public interface Selector<Parsed, Selected> {
 
     /**
-     * Returns the type of parsed result for this selector.
+     * Returns the type of parsed result of this selector.
      */
     Class<Parsed> getParsedType();
 

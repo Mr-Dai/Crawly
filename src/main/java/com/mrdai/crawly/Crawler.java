@@ -3,6 +3,7 @@ package com.mrdai.crawly;
 import com.mrdai.crawly.downloader.Downloader;
 import com.mrdai.crawly.pipeline.Pipeline;
 import com.mrdai.crawly.processor.PageProcessor;
+import com.mrdai.crawly.response.Response;
 import com.mrdai.crawly.scheduler.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,13 +30,13 @@ import java.util.concurrent.atomic.AtomicInteger;
  * <p>
  * {@link Downloader} is where the crawler access the outside world. For a given {@link Request}
  * retrieved from {@code Scheduler}, crawler will use {@link Downloader} to download the web page
- * and stores it in a {@link Page} object.
+ * and stores it in a {@link Response} object.
  * </p>
  * <p>
- * Afterwards, {@link PageProcessor} will be used to extract information from the {@code Page}
+ * Afterwards, {@link PageProcessor} will be used to extract information from the {@code Response}
  * object. A crawler can have more than one page processors, as one processor can only be used to process
- * one kind of web page. {@link PageProcessor#supports(Page)} method will be called to find a appropriate
- * processor for each incoming {@code Page}. The information will be stored in a {@link ResultItems} object.
+ * one kind of web page. {@link PageProcessor#supports(Response)} method will be called to find a appropriate
+ * processor for each incoming {@code Response}. The information will be stored in a {@link ResultItems} object.
  * </p>
  * <p>
  * Finally, the {@code ResultItems} will be passed to every {@link Pipeline} sequentially, where

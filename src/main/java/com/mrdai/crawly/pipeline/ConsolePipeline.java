@@ -9,6 +9,7 @@ import java.util.Map;
  */
 public class ConsolePipeline implements Pipeline {
 
+    @Override
     public boolean process(ResultItems resultItems) {
         for (Map.Entry<String, Object> entry : resultItems)
             System.out.println(entry.getKey() + ": " + entry.getValue());

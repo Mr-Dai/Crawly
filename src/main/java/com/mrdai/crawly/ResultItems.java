@@ -1,14 +1,14 @@
 package com.mrdai.crawly;
 
+import com.mrdai.crawly.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
-import java.util.function.Consumer;
 
 /**
  * <p>
- *     A {@code ResultItems} stores all useful information extracted from a {@link Page}.
+ *     A {@code ResultItems} stores all useful information extracted from a {@link Response}.
  * </p>
  * <p>
  *     The {@code ResultItems}' behavior is similar to {@link java.util.Map Map},
