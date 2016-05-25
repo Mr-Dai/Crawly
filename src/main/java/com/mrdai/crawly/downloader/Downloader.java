@@ -3,6 +3,8 @@ package com.mrdai.crawly.downloader;
 import com.mrdai.crawly.response.Response;
 import com.mrdai.crawly.Request;
 
+import java.io.IOException;
+
 /**
  * <p>
  *     A {@code Downloader} is used by {@link com.mrdai.crawly.Crawler Crawler} to download a web page
@@ -25,6 +27,8 @@ public interface Downloader {
      *
      * @param request the given {@code Request}, designating the web page to be downloaded
      * @return the downloaded web page
+     *
+     * @throws IOException if an I/O exception occurs.
      */
-    Response download(Request request);
+    Response download(Request request) throws IOException;
 }

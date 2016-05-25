@@ -6,13 +6,14 @@ Currently the project is still under construction and is way behind its first re
 
 ## TODO
 
-- [x] Build up the basic structure of the framework. (Finished in 2016-01-21)
-- [x] Write default implementation for `Scheduler`. (Finished in 2016-01-21)
-- [x] Write default implementation for `Pipeline`. (Finished in 2016-02-01)
-- [ ] Write default implementation for `Downloader`.
-- [ ] Write example implementations for `PageProcessor`.
-- [ ] Implement `Request`.
+- [x] Build up the basic structure of the framework.
+- [x] Write default implementation for `Scheduler`.
+- [x] Write default implementation for `Pipeline`.
+- [x] Implement `Request`.
+- [x] Write default implementation for `Downloader`.
 - [ ] Implement `Response`.
+- [ ] Write example implementations for `PageProcessor`.
 - [ ] Enrich the API of `ResultItems`.
 - [ ] Implement `JsonResponse`, `XmlResponse` and `HtmlPage`
+- [ ] Write test cases for the existed code.
 - [ ] Implement multi-thread support for `Crawler`.

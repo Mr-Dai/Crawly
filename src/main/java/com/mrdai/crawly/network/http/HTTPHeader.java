@@ -95,7 +95,7 @@ public abstract class HttpHeader {
     public static final String SERVER = "Server";
     /** An HTTP cookie */
     public static final String SET_COOKIE = "Set-Cookie";
-    /** CGI header field specifying the status of the HTTP response. Normal HTTP responses use a separate "Status-Line" instead, defined by RFC 7230.[6] */
+    /** CGI header field specifying the status of the HTTP response. Normal HTTP responses use a separate "Status-Line" instead, defined by RFC 7230. */
     public static final String STATUS = "Status";
     /** A HSTS Policy informing the HTTP client how long to cache the HTTPS only policy and whether this applies to subdomains. */
     public static final String STRICT_TRANSPORT_SECURITY = "Strict-Transport-Security";

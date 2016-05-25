@@ -3,6 +3,7 @@ package com.mrdai.crawly.response;
 import com.mrdai.crawly.Request;
 import com.mrdai.crawly.selector.Selector;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,11 +16,20 @@ import java.util.Map;
  * @since 0.1
  */
 public class Response {
-    private Request request;
-    private int statusCode;
-    private Map<String, String> responseHeaders;
-    private String rawBody;
-    private Map<Class<?>, Object> parsedResults = new HashMap<>();
+    private final Request request;
+    private final int statusCode;
+    private final Map<String, String> responseHeaders;
+    private final String rawBody;
+    private final Map<Class<?>, Object> parsedResults = new HashMap<>();
+
+    public Response(Request request, int statusCode,
+                    Map<String, String> responseHeaders,
+                    String body) {
+        this.request = request;
+        this.statusCode = statusCode;
+        this.responseHeaders = Collections.unmodifiableMap(new HashMap<>(responseHeaders));
+        this.rawBody = body;
+    }
 
     /**
      * Selects element from the body of the page using the given {@link Selector}
