@@ -11,7 +11,7 @@ Currently the project is still under construction and is way behind its first re
 - [x] Write default implementation for `Pipeline`.
 - [x] Implement `Request`.
 - [x] Write default implementation for `Downloader`.
-- [ ] Implement `Response`.
+- [x] Implement `Response`.
 - [ ] Write example implementations for `PageProcessor`.
 - [ ] Enrich the API of `ResultItems`.
 - [ ] Implement `JsonResponse`, `XmlResponse` and `HtmlPage`
