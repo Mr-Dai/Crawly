@@ -38,9 +38,11 @@ public interface Scheduler {
      * if no more entry can be found.
      * <p>
      *     For each call to this method, it must return a brand-new {@code Request}.
-     *     Reusing {@code Request} instance(s) might cause many problems, as {@code Request} is
+     *     Reusing {@code Request} instance might cause many problems, as {@code Request} is
      *     not thread-safe.
      * </p>
+     *
+     * @return a {@code Request} from the waiting list; {@code null} if there is no more waiting entry.
      */
     Request poll();
 

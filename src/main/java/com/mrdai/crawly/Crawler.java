@@ -8,6 +8,7 @@ import com.mrdai.crawly.scheduler.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -51,6 +52,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  *     the {@code Crawler} will step into state `ended` which stands for the end of its life cycle and
  *     is ready to be released.
  * </p>
+ * As a default implementation, {@code Crawler} only supports crawling in single thread in a pretty naive way.
+ * Subclasses can choose to override {@link #run()} and {@link #crawl()} methods to add additional support.
  *
  * @see Scheduler
  * @see Downloader
@@ -60,7 +63,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Mr-Dai
  * @since 0.1
  */
-public abstract class Crawler implements Runnable {
+public class Crawler implements Runnable {
     private static final Logger LOG = LoggerFactory.getLogger(Crawler.class);
 
     private static final int INITIALIZING = 0;
@@ -129,7 +132,7 @@ public abstract class Crawler implements Runnable {
     }
 
     /**
-     * Starts the {@code Crawler}
+     * Starts the {@code Crawler}.
      *
      * @throws IllegalStateException if the {@code Crawler} has already started
      */
@@ -141,9 +144,45 @@ public abstract class Crawler implements Runnable {
         if (!state.compareAndSet(INITIALIZING, RUNNING))
             throw new IllegalStateException("Failed to start the crawler, as the crawler has already started.");
 
-        // TODO Crawls
+        crawl();
 
-        state.compareAndSet(RUNNING, ENDED); // TODO what if the crawler is not running?
+        state.compareAndSet(RUNNING, ENDED);
+    }
+
+    /**
+     * The concrete crawling logic of a crawler which is invoked within {@link #run()} method after setting
+     * the state of the crawler.
+     * <p>
+     * The default implementation only supports crawling in single thread. Subclasses can choose to override
+     * this method to provide additional support.
+     */
+    protected void crawl() {
+        Request request = scheduler.poll();
+        while (request != null) {
+            Response response;
+            try {
+                response = downloader.download(request);
+            } catch (IOException e) {
+                LOG.error("Unexpected exception occurred when requesting url: " + request.getTargetUrl(), e);
+                continue;
+            }
+
+            ResultItems resultItems = null;
+            for (PageProcessor processor : processors) {
+                if (processor.supports(response)) {
+                    resultItems = processor.process(response);
+                    break;
+                }
+            }
+
+            if (resultItems == null) {
+                LOG.error("Cannot find suitable processor for response {}", response);
+                continue;
+            }
+
+            for (Pipeline pipeline : pipelines)
+                pipeline.process(resultItems);
+        }
     }
 
     /**
