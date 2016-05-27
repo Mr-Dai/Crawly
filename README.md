@@ -6,14 +6,13 @@ Currently the project is still under construction and is way behind its first re
 
 ## TODO
 
+- [ ] Implement multi-thread support for `Crawler`.
+- [ ] Enrich the API of `ResultItems`.
+- [ ] Write test cases for the existed code.
 - [x] Build up the basic structure of the framework.
 - [x] Write default implementation for `Scheduler`.
 - [x] Write default implementation for `Pipeline`.
 - [x] Implement `Request`.
 - [x] Write default implementation for `Downloader`.
 - [x] Implement `Response`.
-- [ ] Write example crawlers.
-- [ ] Enrich the API of `ResultItems`.
-- [ ] Implement `JsonResponse`, `XmlResponse` and `HtmlPage`
-- [ ] Write test cases for the existed code.
-- [ ] Implement multi-thread support for `Crawler`.
+- [x] Write example crawlers.

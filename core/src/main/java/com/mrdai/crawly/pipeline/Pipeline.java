@@ -2,6 +2,8 @@ package com.mrdai.crawly.pipeline;
 
 import com.mrdai.crawly.ResultItems;
 
+import java.io.Closeable;
+
 /**
  * <p>
  *     Pipeline is the last component to process a crawling task, which is generally used to
@@ -22,7 +24,7 @@ import com.mrdai.crawly.ResultItems;
  * @author Mr-Dai
  * @since 0.1
  */
-public interface Pipeline {
+public interface Pipeline extends Closeable {
 
     /**
      * <p>

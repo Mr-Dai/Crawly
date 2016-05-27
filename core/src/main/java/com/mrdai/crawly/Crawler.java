@@ -54,6 +54,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * </p>
  * As a default implementation, {@code Crawler} only supports crawling in single thread in a pretty naive way.
  * Subclasses can choose to override {@link #run()} and {@link #crawl()} methods to add additional support.
+ * <p>
+ * For crawler-level concurrency support, see {@link ConcurrentCrawler}.
  *
  * @see Scheduler
  * @see Downloader
@@ -145,8 +147,8 @@ public class Crawler implements Runnable {
             throw new IllegalStateException("Failed to start the crawler, as the crawler has already started.");
 
         crawl();
-
         state.compareAndSet(RUNNING, ENDED);
+        shutdown();
     }
 
     /**
@@ -188,6 +190,20 @@ public class Crawler implements Runnable {
                 }
             }
             request = scheduler.poll();
+        }
+    }
+
+    /**
+     * Shutdowns the crawler by releasing all its related resources.
+     * This method will be invoked at the end of {@link #run()}.
+     */
+    protected void shutdown() {
+        for (Pipeline pipeline : pipelines) {
+            try {
+                pipeline.close();
+            } catch (IOException e) {
+                LOG.error("Failed to close pipeline " + pipeline, e);
+            }
         }
     }
 

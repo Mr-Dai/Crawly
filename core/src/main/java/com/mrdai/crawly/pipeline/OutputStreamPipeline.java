@@ -34,4 +34,8 @@ public class OutputStreamPipeline implements Pipeline {
         return false;
     }
 
+    @Override
+    public void close() throws IOException {
+        out.close();
+    }
 }

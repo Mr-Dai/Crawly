@@ -2,17 +2,25 @@ package com.mrdai.crawly.pipeline;
 
 import com.mrdai.crawly.ResultItems;
 
+import java.io.IOException;
+import java.util.Map;
+
 /**
- * The default implementation of {@link Pipeline}, which prints the information in {@link ResultItems}
- * on console.
- * <p>
- * It uses an underlying {@link OutputStreamPipeline} to write data to {@link System#out}.
+ * {@link Pipeline} which prints the information in {@link ResultItems} to console.
  */
 public class ConsolePipeline implements Pipeline {
-    private final OutputStreamPipeline delegate = new OutputStreamPipeline(System.out);
 
     @Override
     public boolean process(ResultItems resultItems) {
-        return delegate.process(resultItems);
+        System.out.println(resultItems.getRequest().getTargetUrl().toString());
+        System.out.println("-----------------------------------");
+        for (Map.Entry<String, Object> entry : resultItems)
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        System.out.println("===================================");
+
+        return false;
     }
+
+    @Override
+    public void close() throws IOException {}
 }
