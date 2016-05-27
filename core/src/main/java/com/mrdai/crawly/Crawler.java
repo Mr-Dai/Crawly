@@ -177,6 +177,10 @@ public class Crawler implements Runnable {
                 LOG.error("Cannot find suitable processor for response {}", response);
                 continue;
             }
+
+            for (Request addedRequest : resultItems.getAddedRequests())
+                scheduler.push(addedRequest);
+
             // Go through pipelines
             for (Pipeline pipeline : pipelines) {
                 if (!pipeline.process(resultItems)) {

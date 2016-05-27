@@ -1,5 +1,6 @@
 package com.mrdai.crawly;
 
+import com.mrdai.crawly.processor.PageProcessor;
 import com.mrdai.crawly.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +19,14 @@ import java.util.*;
  * <p>
  *     On default, {@code ResultItems} stores its content in a {@link java.util.HashMap HashMap},
  *     which should be good enough for most cases. For instantiating a {@code ResultItems} using
- *     customized {@code Map} class, see {@link #ResultItems(Class)}.
+ *     customized {@code Map} class, see {@link #ResultItems(Request, Class)}.
  * </p>
+ * <p>
+ *     Additionally, {@link PageProcessor} can add {@link Request} to the scheduler by invoking {@link #addedRequests}.
+ *     The added request will be stored in a {@link List} and pushed to the scheduler after the processor returns.
+ * </p>
+ *
+ * @see PageProcessor
  *
  * @author Mr-Dai
  * @since 0.1
@@ -29,6 +36,7 @@ public class ResultItems implements Iterable<Map.Entry<String, Object>> {
 
     private final Request request;
     private final Map<String, Object> resultItems;
+    private final List<Request> addedRequests = new LinkedList<>();
 
     public ResultItems(Request request) {
         this.request = request;
@@ -45,6 +53,14 @@ public class ResultItems implements Iterable<Map.Entry<String, Object>> {
             throw new IllegalArgumentException("The given map class `" + mapClass.getCanonicalName()
                                                + "` cannot be instantiated.", e);
         }
+    }
+
+    public void addRequest(Request request) {
+        addedRequests.add(request);
+    }
+
+    public List<Request> getAddedRequests() {
+        return addedRequests;
     }
 
     void put(String key, Object value) {

@@ -21,7 +21,6 @@ import java.util.Map;
  * @since 0.1
  */
 public class Request {
-    private final HttpMethod method;
     private final URL targetUrl;
     private final Map<String, String> headers = new HashMap<>();
     private String message = "";
@@ -29,23 +28,20 @@ public class Request {
     /**
      * Creates a {@code Request} with the given {@link HttpMethod} and {@code targetUrl}.
      *
-     * @param method the given {@code HttpMethod}.
      * @param targetUrl the given {@code targetUrl}.
      *
      * @throws MalformedURLException if the given url string is invalid.
      */
-    public Request(HttpMethod method, String targetUrl) throws MalformedURLException {
-        this(method, new URL(targetUrl));
+    public Request(String targetUrl) throws MalformedURLException {
+        this(new URL(targetUrl));
     }
 
     /**
-     * Creates a {@code Request} with the given {@link HttpMethod} and {@code targetUrl}.
+     * Creates a {@code Request} with the given {@code targetUrl}.
      *
-     * @param method the given {@code HttpMethod}.
      * @param targetUrl the given {@code targetUrl}.
      */
-    public Request(HttpMethod method, URL targetUrl) {
-        this.method = method;
+    public Request(URL targetUrl) {
         this.targetUrl = targetUrl;
     }
 
@@ -67,10 +63,6 @@ public class Request {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public HttpMethod getMethod() {
-        return method;
     }
 
     public URL getTargetUrl() {

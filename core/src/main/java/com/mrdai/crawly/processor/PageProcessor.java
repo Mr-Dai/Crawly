@@ -24,7 +24,7 @@ public interface PageProcessor {
      * </p>
      *
      * @param response the {@code Response} submitted for the process attempt
-     * @return {@code true} if this {@code PageProcess} can/will process the given {@code Response},
+     * @return {@code true} if this {@code PageProcess} can/will process the given {@code Response};
      *         {@code false} otherwise.
      */
     boolean supports(Response response);
