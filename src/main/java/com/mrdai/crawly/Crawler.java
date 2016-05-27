@@ -166,7 +166,6 @@ public class Crawler implements Runnable {
                 LOG.error("Unexpected exception occurred when requesting url: " + request.getTargetUrl(), e);
                 continue;
             }
-
             ResultItems resultItems = null;
             for (PageProcessor processor : processors) {
                 if (processor.supports(response)) {
@@ -174,14 +173,17 @@ public class Crawler implements Runnable {
                     break;
                 }
             }
-
             if (resultItems == null) {
                 LOG.error("Cannot find suitable processor for response {}", response);
                 continue;
             }
-
-            for (Pipeline pipeline : pipelines)
-                pipeline.process(resultItems);
+            // Go through pipelines
+            for (Pipeline pipeline : pipelines) {
+                if (!pipeline.process(resultItems)) {
+                    break;
+                }
+            }
+            request = scheduler.poll();
         }
     }
 

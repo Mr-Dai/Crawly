@@ -27,13 +27,16 @@ import java.util.*;
 public class ResultItems implements Iterable<Map.Entry<String, Object>> {
     private static final Logger LOG = LoggerFactory.getLogger(ResultItems.class);
 
-    Map<String, Object> resultItems;
+    private final Request request;
+    private final Map<String, Object> resultItems;
 
-    public ResultItems() {
+    public ResultItems(Request request) {
+        this.request = request;
         resultItems = new HashMap<>();
     }
 
-    public ResultItems(Class<? extends Map> mapClass) {
+    public ResultItems(Request request, Class<? extends Map> mapClass) {
+        this.request = request;
         try {
             resultItems = mapClass.newInstance();
         } catch (ReflectiveOperationException e) {
@@ -54,5 +57,9 @@ public class ResultItems implements Iterable<Map.Entry<String, Object>> {
 
     public Iterator<Map.Entry<String, Object>> iterator() {
         return resultItems.entrySet().iterator();
+    }
+
+    public Request getRequest() {
+        return request;
     }
 }
