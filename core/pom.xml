@@ -3,25 +3,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.mrdai</groupId>
-    <artifactId>crawly</artifactId>
+    <groupId>com.mrdai.crawly</groupId>
+    <artifactId>crawly-parent</artifactId>
     <version>0.1</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>core</artifactId>
+  <artifactId>crawly-core</artifactId>
   <packaging>jar</packaging>
-
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.7.13</version>
-    </dependency>
-  </dependencies>
 </project>

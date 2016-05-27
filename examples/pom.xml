@@ -3,11 +3,30 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.mrdai</groupId>
-    <artifactId>crawly</artifactId>
+    <groupId>com.mrdai.crawly</groupId>
+    <artifactId>crawly-parent</artifactId>
     <version>0.1</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>examples</artifactId>
+  <artifactId>crawly-examples</artifactId>
   <packaging>jar</packaging>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.mrdai.crawly</groupId>
+      <artifactId>crawly-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+      <version>1.9.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.7.21</version>
+    </dependency>
+  </dependencies>
 </project>

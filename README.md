@@ -12,8 +12,7 @@ Currently the project is still under construction and is way behind its first re
 - [x] Implement `Request`.
 - [x] Write default implementation for `Downloader`.
 - [x] Implement `Response`.
-- [ ] Implement `toString` for `Request` and `Response`.
-- [ ] Write example implementations for `PageProcessor`.
+- [ ] Write example crawlers.
 - [ ] Enrich the API of `ResultItems`.
 - [ ] Implement `JsonResponse`, `XmlResponse` and `HtmlPage`
 - [ ] Write test cases for the existed code.

@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.mrdai</groupId>
-  <artifactId>crawly</artifactId>
+  <groupId>com.mrdai.crawly</groupId>
+  <artifactId>crawly-parent</artifactId>
   <version>0.1</version>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
 
   <name>crawly</name>
   <url>http://maven.apache.org</url>
@@ -27,6 +27,20 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.13</version>
+    </dependency>
+  </dependencies>
+
   <build>
     <plugins>
       <plugin>
@@ -35,7 +49,7 @@
         <version>3.3</version>
         <configuration>
           <source>1.8</source>
-          <target>1.7</target>
+          <target>1.8</target>
         </configuration>
       </plugin>
     </plugins>

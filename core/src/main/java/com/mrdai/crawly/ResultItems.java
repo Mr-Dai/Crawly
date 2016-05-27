@@ -63,11 +63,11 @@ public class ResultItems implements Iterable<Map.Entry<String, Object>> {
         return addedRequests;
     }
 
-    void put(String key, Object value) {
+    public void put(String key, Object value) {
         resultItems.put(key, value);
     }
 
-    Object get(String key) {
+    public Object get(String key) {
         return resultItems.get(key);
     }
 

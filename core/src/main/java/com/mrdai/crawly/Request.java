@@ -21,9 +21,13 @@ import java.util.Map;
  * @since 0.1
  */
 public class Request {
-    private final URL targetUrl;
+    protected URL targetUrl;
     private final Map<String, String> headers = new HashMap<>();
     private String message = "";
+
+    protected Request() {
+        this.targetUrl = null;
+    }
 
     /**
      * Creates a {@code Request} with the given {@link HttpMethod} and {@code targetUrl}.

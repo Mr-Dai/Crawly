@@ -205,6 +205,17 @@ public class Crawler implements Runnable {
     }
 
     /**
+     * Adds a new starting {@code Request} to the {@code Scheduler} of this {@code Crawler}.
+     *
+     * @param request the new starting {@code Request}.
+     * @throws IllegalStateException if the {@code Crawler} has already started.
+     */
+    public void addStartRequest(Request request) {
+        assertInitializing("Cannot add new starting request as the crawler has already started.");
+        scheduler.push(request);
+    }
+
+    /**
      * Adds a new {@code Pipeline} to the {@code Crawler}
      *
      * @param pipeline the new {@code Pipeline} to be added

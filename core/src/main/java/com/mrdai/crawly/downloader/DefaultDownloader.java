@@ -2,7 +2,7 @@ package com.mrdai.crawly.downloader;
 
 import com.mrdai.crawly.Request;
 import com.mrdai.crawly.response.Response;
-import com.mrdai.crawly.util.CollectionUtils;
+import com.mrdai.crawly.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +44,7 @@ public class DefaultDownloader implements Downloader {
 
         // Get response headers
         for (Map.Entry<String, List<String>> header : connection.getHeaderFields().entrySet())
-            responseHeaders.put(header.getKey(), CollectionUtils.concatStrings(header.getValue(), ","));
+            responseHeaders.put(header.getKey(), StringUtils.concatStrings(header.getValue(), ","));
 
         // Post request message if exists
         if (!request.getMessage().isEmpty()) {
