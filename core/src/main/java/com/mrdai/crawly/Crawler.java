@@ -46,14 +46,14 @@ import java.util.concurrent.atomic.AtomicInteger;
  * <p>
  *     {@code Crawler} has three possible running states: `initializing`, `running` and `ended`.
  *     Initially, the {@code Crawler} is `initializing`, in which you can configure the {@code Crawler} by setting
- *     or adding components. When you call {@link #run()}, the {@code Crawler} will step into state `running`,
+ *     or adding components. When you call {@link #start()}, the {@code Crawler} will step into state `running`,
  *     locks all components and starts to crawl. In this state, changing any components the {@code Crawler} are
  *     using will result in an exception. After the {@code Crawler} finished crawling every target page,
  *     the {@code Crawler} will step into state `ended` which stands for the end of its life cycle and
  *     is ready to be released.
  * </p>
  * As a default implementation, {@code Crawler} only supports crawling in single thread in a pretty naive way.
- * Subclasses can choose to override {@link #run()} and {@link #crawl()} methods to add additional support.
+ * Subclasses can choose to override {@link #start()} and {@link #run()} methods to add additional support.
  * <p>
  * For crawler-level concurrency support, see {@link ConcurrentCrawler}.
  *
@@ -65,7 +65,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Mr-Dai
  * @since 0.1
  */
-public class Crawler implements Runnable {
+public class Crawler {
     private static final Logger LOG = LoggerFactory.getLogger(Crawler.class);
 
     private static final int INITIALIZING = 0;
@@ -138,34 +138,44 @@ public class Crawler implements Runnable {
      *
      * @throws IllegalStateException if the {@code Crawler} has already started
      */
-    public void run() {
-        // Lock `processors` and `pipelines`
-        processors = Collections.unmodifiableList(processors);
-        pipelines = Collections.unmodifiableList(pipelines);
-
+    public void start() {
+        initialize();
         if (!state.compareAndSet(INITIALIZING, RUNNING))
             throw new IllegalStateException("Failed to start the crawler, as the crawler has already started.");
-
-        crawl();
+        run();
         state.compareAndSet(RUNNING, ENDED);
         shutdown();
     }
 
     /**
-     * The concrete crawling logic of a crawler which is invoked within {@link #run()} method after setting
+     * Initializes the crawler. The crawler begins to crawl right after this method is returned.
+     * This method will be invoked at the start of the {@link #start()} method.
+     */
+    protected void initialize() {
+        // Lock `processors` and `pipelines`
+        processors = Collections.unmodifiableList(processors);
+        pipelines = Collections.unmodifiableList(pipelines);
+    }
+
+    /**
+     * The concrete crawling logic of a crawler which is invoked within {@link #start()} method after setting
      * the state of the crawler.
-     * <p>
+     *
+     * @implSpec
      * The default implementation only supports crawling in single thread. Subclasses can choose to override
      * this method to provide additional support.
      */
-    protected void crawl() {
+    protected void run() {
         Request request = scheduler.poll();
         while (request != null) {
             Response response;
             try {
+                LOG.info("Requesting url: {}", request.getTargetUrl().toString());
                 response = downloader.download(request);
             } catch (IOException e) {
                 LOG.error("Unexpected exception occurred when requesting url: " + request.getTargetUrl(), e);
+                // Push back the request to retry later
+                scheduler.push(request);
                 continue;
             }
             ResultItems resultItems = null;
@@ -195,7 +205,7 @@ public class Crawler implements Runnable {
 
     /**
      * Shutdowns the crawler by releasing all its related resources.
-     * This method will be invoked at the end of {@link #run()}.
+     * This method will be invoked at the end of {@link #start()}.
      */
     protected void shutdown() {
         for (Pipeline pipeline : pipelines) {

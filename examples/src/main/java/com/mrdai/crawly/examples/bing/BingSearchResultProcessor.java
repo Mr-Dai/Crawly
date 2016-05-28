@@ -37,7 +37,7 @@ public class BingSearchResultProcessor implements PageProcessor {
                 String titleText = title.text();
                 String caption = result.select(".b_caption p").first().text();
                 String url = title.attr("href");
-                LOG.debug("Extracted result item:\nTitle: {}\nURL: {}\nCaption: {}\n", titleText, url, caption);
+                LOG.info("Extracted result item:\nTitle: {}\nURL: {}\nCaption: {}\n", titleText, url, caption);
                 results.add(new BingSearchResult(titleText, caption, url));
             } catch (Throwable e) {
                 LOG.error("Failed to parse html: \n" + result.html(), e);
