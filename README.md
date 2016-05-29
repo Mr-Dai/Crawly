@@ -6,13 +6,11 @@ Currently the project is still under construction and is way behind its first re
 
 ## TODO
 
-- [ ] Cache DNS.
-- [ ] Add support for Proxy.
-- [ ] Add support for FTP request.
+- [ ] Add support for Proxy (`java.net.Proxy`).
 - [ ] Write test cases for the existed code.
+- [ ] Add support for other network protocols ([Apache Commons Net](http://commons.apache.org/proper/commons-net/index.html)).
 - [ ] Add more example crawlers.
 - [ ] Distributed crawler.
-- [ ] Enrich the API of `ResultItems`.
 - [x] Build up the basic structure of the framework.
 - [x] Write default implementation for `Scheduler`.
 - [x] Write default implementation for `Pipeline`.
