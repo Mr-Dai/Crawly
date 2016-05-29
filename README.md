@@ -6,6 +6,10 @@ Currently the project is still under construction and is way behind its first re
 
 ## TODO
 
+- [ ] Add distinct scheduler.
+- [ ] Add support for FTP request.
+- [ ] Cache DNS.
+- [ ] Add support for Proxy.
 - [ ] Write test cases for the existed code.
 - [ ] Add more example crawlers.
 - [ ] Enrich the API of `ResultItems`.

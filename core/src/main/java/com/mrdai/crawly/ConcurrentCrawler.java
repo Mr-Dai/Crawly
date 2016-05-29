@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * However, the process threads will concurrently use {@code PageProcessor}s and {@code Pipeline}s to process
  * every incoming response, it would be important to make sure they are thread-safe when you are using more
  * than {@code 1} process threads.
- * Also, the download threads will concurrently use {@code Downloader}s to handle every request.
+ * Also, the download threads will concurrently use {@code Downloader} to handle requests.
  * <p>
  * Despite of download threads and process threads, the main thread will be used to check if all these worker
  * threads are done, and ends the crawling if so. The main thread will continuously check on all worker threads
@@ -31,7 +31,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * <p>
  * On default, the number of process threads is {@code 1}, the number of download threads is {@code 5},
  * and the main thread will wait for {@code 500}ms each time it checks on the worker threads.
- * All of these variable can be set by the crawler's constructors.
+ * All of these variables can be set by the crawler's constructors.
  */
 public class ConcurrentCrawler extends Crawler {
     private static final Logger LOG = LoggerFactory.getLogger(ConcurrentCrawler.class);
