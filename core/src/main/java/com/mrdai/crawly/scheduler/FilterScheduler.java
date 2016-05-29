@@ -5,11 +5,19 @@ import com.mrdai.crawly.Request;
 /**
  * This class is the super class of all {@code Scheduler}s that filter the requests
  * added to the {@code Scheduler}. These {@code Scheduler}s use another underlying
- * {@code Scheduler} to maintain all the registered requests. Their {@link #push(Request)}
- * method will invoke {@link #shouldAdd(Request)} to determine whether to add this request
- * to the underlying {@code Scheduler}. Also, {@code FilterScheduler} class provides
- * a {@link #pushByForce(Request)} method for client to add request without considering
- * the result of {@link #shouldAdd(Request)}.
+ * {@code Scheduler} to maintain all the registered requests.
+ * <p>
+ * Implementation classes must implement method {@link #shouldAdd(Request)} and {@link #record(Request)}.
+ * The {@link #shouldAdd(Request)} method returns a {@code boolean}, designating if the given {@code Request}
+ * should be added to the scheduler. The {@link #record(Request)} method records the added {@code Request}s.
+ * <p>
+ * The {@link #push(Request)} method of this class will first invoke {@link #shouldAdd(Request)} to determine
+ * whether to add this {@code Request} to the scheduler. If it returns {@code true}, the method will invoke
+ * {@link #record(Request)} and then add the request to the underlying scheduler.
+ * <p>
+ * Additionally, this class also provide a {@link #pushByForce(Request)} method, which can adds the given request
+ * without considering the result of {@link #shouldAdd(Request)}. Note that this method will also invoke
+ * {@link #record(Request)} before it adds the request to the underlying scheduler.
  */
 public abstract class FilterScheduler implements Scheduler {
     protected final Scheduler scheduler;
@@ -33,6 +41,13 @@ public abstract class FilterScheduler implements Scheduler {
     protected abstract boolean shouldAdd(Request request);
 
     /**
+     * Records that the given {@code Request} has been added to the {@code Scheduler}.
+     *
+     * @param request the given {@code Request} which has been added to the {@code Scheduler}.
+     */
+    protected abstract void record(Request request);
+
+    /**
      * Tries to the push the given {@code Request} to this {@code Scheduler} and returns {@code true}
      * upon success.
      * <p>
@@ -44,8 +59,10 @@ public abstract class FilterScheduler implements Scheduler {
      */
     @Override
     public boolean push(Request request) {
-        if (shouldAdd(request))
+        if (shouldAdd(request)) {
+            record(request);
             return scheduler.push(request);
+        }
         return false;
     }
 
@@ -57,6 +74,7 @@ public abstract class FilterScheduler implements Scheduler {
      * @return {@code true} if the request is pushed to this {@code Scheduler} successfully; {@code false} otherwise.
      */
     public boolean pushByForce(Request request) {
+        record(request);
         return scheduler.push(request);
     }
 

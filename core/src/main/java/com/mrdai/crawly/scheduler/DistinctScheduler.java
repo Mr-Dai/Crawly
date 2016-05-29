@@ -26,11 +26,7 @@ public class DistinctScheduler extends FilterScheduler {
     }
 
     @Override
-    public boolean push(Request request) {
-        if (shouldAdd(request)) {
-            requestSet.add(request.getTargetUrl().toString());
-            return scheduler.push(request);
-        }
-        return false;
+    protected void record(Request request) {
+        requestSet.add(request.getTargetUrl().toString());
     }
 }

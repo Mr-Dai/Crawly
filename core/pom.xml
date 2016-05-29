@@ -9,6 +9,14 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
+  <dependencies>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>19.0</version>
+    </dependency>
+  </dependencies>
+
   <artifactId>crawly-core</artifactId>
   <packaging>jar</packaging>
 </project>

@@ -6,12 +6,12 @@ Currently the project is still under construction and is way behind its first re
 
 ## TODO
 
-- [ ] Add distinct scheduler.
-- [ ] Add support for FTP request.
 - [ ] Cache DNS.
 - [ ] Add support for Proxy.
+- [ ] Add support for FTP request.
 - [ ] Write test cases for the existed code.
 - [ ] Add more example crawlers.
+- [ ] Distributed crawler.
 - [ ] Enrich the API of `ResultItems`.
 - [x] Build up the basic structure of the framework.
 - [x] Write default implementation for `Scheduler`.
@@ -21,3 +21,5 @@ Currently the project is still under construction and is way behind its first re
 - [x] Implement `Response`.
 - [x] Write example crawlers.
 - [x] Implement multi-thread support for `Crawler`.
+- [x] Add distinct scheduler.
+- [x] Implement bloom filter.
