@@ -4,10 +4,9 @@ import com.mrdai.crawly.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.LinkedList;
+import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
 
 /**
  * The default implementation of {@link Scheduler}, which uses a provided {@link Queue}
@@ -19,10 +18,10 @@ public class QueueScheduler implements Scheduler {
     private final Queue<Request> queue;
 
     /**
-     * Constructs a {@code QueueScheduler} using {@link LinkedList} to manage the registered {@code Request}s.
+     * Constructs a {@code QueueScheduler} using {@link ArrayDeque} to manage the registered {@code Request}s.
      */
     public QueueScheduler() {
-        this(new LinkedList<>());
+        this(new ArrayDeque<Request>());
     }
 
     /**
