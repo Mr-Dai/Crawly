@@ -6,7 +6,7 @@ package com.mrdai.crawly.network.http;
  * For more information about the detailed semantics of each status code,
  * see <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">Wikipedia</a>.
  */
-public abstract class StatusCode {
+public final class StatusCode {
 
     /* 1xx Informational */
 
@@ -148,5 +148,7 @@ public abstract class StatusCode {
     /** 511 Network Authentication Require */
     public static final int NETWORK_AUTHENTICATION_REQUIRE = 511;
 
-
+    private StatusCode() {
+        throw new AssertionError("StatusCode should not be instantiated!");
+    }
 }

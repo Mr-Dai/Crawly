@@ -1,6 +1,6 @@
 package com.mrdai.crawly.scheduler;
 
-import com.mrdai.crawly.Request;
+import com.mrdai.crawly.network.Request;
 
 import java.util.HashSet;
 import java.util.Set;

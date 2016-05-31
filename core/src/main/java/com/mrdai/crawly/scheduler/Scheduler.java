@@ -1,6 +1,6 @@
 package com.mrdai.crawly.scheduler;
 
-import com.mrdai.crawly.Request;
+import com.mrdai.crawly.network.Request;
 
 /**
  * <p>

@@ -2,7 +2,7 @@ package com.mrdai.crawly.examples.bing;
 
 import com.mrdai.crawly.ResultItems;
 import com.mrdai.crawly.processor.PageProcessor;
-import com.mrdai.crawly.response.Response;
+import com.mrdai.crawly.network.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

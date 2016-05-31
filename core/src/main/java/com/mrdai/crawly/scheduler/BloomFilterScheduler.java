@@ -2,7 +2,7 @@ package com.mrdai.crawly.scheduler;
 
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnels;
-import com.mrdai.crawly.Request;
+import com.mrdai.crawly.network.Request;
 
 import java.nio.charset.Charset;
 

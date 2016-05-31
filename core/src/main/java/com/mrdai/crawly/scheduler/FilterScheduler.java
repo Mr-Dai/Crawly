@@ -1,6 +1,6 @@
 package com.mrdai.crawly.scheduler;
 
-import com.mrdai.crawly.Request;
+import com.mrdai.crawly.network.Request;
 
 /**
  * This class is the super class of all {@code Scheduler}s that filter the requests

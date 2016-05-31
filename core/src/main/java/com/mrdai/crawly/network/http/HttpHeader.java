@@ -3,7 +3,7 @@ package com.mrdai.crawly.network.http;
 /**
  * Constant header field names of HTTP request and response
  */
-public abstract class HttpHeader {
+public final class HttpHeader {
 
     /* Request Headers */
 
@@ -120,4 +120,9 @@ public abstract class HttpHeader {
     public static final String X_CONTENT_SECURITY_POLICY = "X-Content-Security-Policy";
     /** X-WebKit-Csp */
     public static final String X_WEBKIT_CSP = "X-WebKit-Csp";
+
+
+    private HttpHeader() {
+        throw new AssertionError("HttpHeader should not be instantiated!");
+    }
 }

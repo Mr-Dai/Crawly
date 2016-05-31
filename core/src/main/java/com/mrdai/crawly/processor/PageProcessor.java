@@ -1,6 +1,6 @@
 package com.mrdai.crawly.processor;
 
-import com.mrdai.crawly.response.Response;
+import com.mrdai.crawly.network.Response;
 import com.mrdai.crawly.ResultItems;
 
 /**

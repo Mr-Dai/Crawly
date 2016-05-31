@@ -1,6 +1,4 @@
-package com.mrdai.crawly.response;
-
-import com.mrdai.crawly.Request;
+package com.mrdai.crawly.network;
 
 import java.util.Collections;
 import java.util.HashMap;

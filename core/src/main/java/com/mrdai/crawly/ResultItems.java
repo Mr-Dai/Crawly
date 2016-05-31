@@ -1,7 +1,8 @@
 package com.mrdai.crawly;
 
+import com.mrdai.crawly.network.Request;
 import com.mrdai.crawly.processor.PageProcessor;
-import com.mrdai.crawly.response.Response;
+import com.mrdai.crawly.network.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

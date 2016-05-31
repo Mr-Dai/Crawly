@@ -7,9 +7,10 @@ Currently the project is still under construction and is way behind its first re
 ## TODO
 
 - [ ] Add support for Proxy (`java.net.Proxy`).
+- [ ] Add support for Rate Limit.
 - [ ] Add support for other network protocols ([Apache Commons Net](http://commons.apache.org/proper/commons-net/index.html)).
-- [ ] Write test cases for the existed code.
 - [ ] Add more example crawlers.
+- [ ] Write test cases for the existed code.
 - [ ] Distributed crawler.
 - [x] Build up the basic structure of the framework.
 - [x] Write default implementation for `Scheduler`.

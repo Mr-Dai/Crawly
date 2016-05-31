@@ -1,4 +1,4 @@
-package com.mrdai.crawly;
+package com.mrdai.crawly.network;
 
 import com.mrdai.crawly.network.http.HttpMethod;
 

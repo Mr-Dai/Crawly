@@ -1,15 +1,12 @@
 package com.mrdai.crawly.examples.bing;
 
-import com.mrdai.crawly.Request;
+import com.mrdai.crawly.network.Request;
 import com.mrdai.crawly.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 /**
  * {@link Request} for searching keyword in {@code http://cn.bing.com}.
