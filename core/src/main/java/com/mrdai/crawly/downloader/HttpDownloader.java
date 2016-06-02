@@ -2,6 +2,8 @@ package com.mrdai.crawly.downloader;
 
 import com.mrdai.crawly.network.Request;
 import com.mrdai.crawly.network.Response;
+import com.mrdai.crawly.network.http.HttpRequest;
+import com.mrdai.crawly.network.http.HttpResponse;
 import com.mrdai.crawly.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,19 +24,26 @@ import java.util.Scanner;
  *
  * @see Downloader
  */
-public class DefaultDownloader implements Downloader {
-    private static final Logger LOG = LoggerFactory.getLogger(DefaultDownloader.class);
+public class HttpDownloader implements Downloader {
+    private static final Logger LOG = LoggerFactory.getLogger(HttpDownloader.class);
+
+    @Override
+    public boolean supports(Request request) {
+        return request instanceof HttpRequest;
+    }
 
     @Override
     public Response download(Request request) throws IOException {
-        LOG.info("Requesting url `{}`", request.getTargetUrl().toString());
-        URLConnection connection = request.getTargetUrl().openConnection();
+        HttpRequest hRequest = (HttpRequest) request;
+        LOG.info("Handling request `{} {}`", hRequest.getHttpMethod(), hRequest.getRequestTarget().toString());
 
-        if (!request.getMessage().isEmpty())
+        URLConnection connection = hRequest.getRequestTarget().toURL().openConnection();
+
+        if (!hRequest.getMessage().isEmpty())
             connection.setDoOutput(true);
 
         // Set request headers
-        for (Map.Entry<String, String> header : request.getHeaders().entrySet())
+        for (Map.Entry<String, String> header : hRequest.getHeaders().entrySet())
             connection.setRequestProperty(header.getKey(), header.getValue());
 
         // Send initial request
@@ -47,9 +56,9 @@ public class DefaultDownloader implements Downloader {
             responseHeaders.put(header.getKey(), StringUtils.concatStrings(header.getValue(), ","));
 
         // Post request message if exists
-        if (!request.getMessage().isEmpty()) {
+        if (!hRequest.getMessage().isEmpty()) {
             try (PrintWriter out = new PrintWriter(connection.getOutputStream())) {
-                out.print(request.getMessage());
+                out.print(hRequest.getMessage());
             }
         }
 
@@ -81,10 +90,10 @@ public class DefaultDownloader implements Downloader {
 
         // Return the result
         if (connection instanceof HttpURLConnection)
-            return new Response(request, ((HttpURLConnection) connection).getResponseCode(),
+            return new HttpResponse(hRequest, ((HttpURLConnection) connection).getResponseCode(),
                                    responseHeaders, responseBody.toString());
 
-        return new Response(request, 0, responseHeaders, responseBody.toString());
+        return new HttpResponse(hRequest, 0, responseHeaders, responseBody.toString());
     }
 
 }

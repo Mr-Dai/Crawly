@@ -12,7 +12,7 @@ public class ConsolePipeline implements Pipeline {
 
     @Override
     public boolean process(ResultItems resultItems) {
-        System.out.println(resultItems.getRequest().getTargetUrl().toString());
+        System.out.println(resultItems.getRequest().toString());
         System.out.println("-----------------------------------");
         for (Map.Entry<String, Object> entry : resultItems)
             System.out.println(entry.getKey() + ": " + entry.getValue());

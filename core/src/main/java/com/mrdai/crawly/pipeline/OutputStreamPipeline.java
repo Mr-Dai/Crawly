@@ -22,7 +22,7 @@ public class OutputStreamPipeline implements Pipeline {
     @Override
     public boolean process(ResultItems resultItems) {
         try {
-            out.write(resultItems.getRequest().getTargetUrl().toString());
+            out.write(resultItems.getRequest().toString());
             out.write(":\n-----------------------------------\n");
             for (Map.Entry<String, Object> entry : resultItems)
                 out.write(entry.getKey() + ": " + entry.getValue() + "\n");

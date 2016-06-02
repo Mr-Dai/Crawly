@@ -23,6 +23,14 @@ import java.io.IOException;
  */
 public interface Downloader {
     /**
+     * Returns if the downloader can handle the given {@code Request}.
+     *
+     * @param request the given {@code Request}.
+     * @return {@code true} if the downloader can handle the given {@code Request}; {@code false} otherwise.
+     */
+    boolean supports(Request request);
+
+    /**
      * Downloads web page designated by the given {@code Request} and stores it in a {@code Response} object.
      *
      * @param request the given {@code Request}, designating the web page to be downloaded

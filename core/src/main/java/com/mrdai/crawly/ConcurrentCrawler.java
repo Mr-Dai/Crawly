@@ -178,7 +178,7 @@ public class ConcurrentCrawler extends Crawler {
                     }
                 }
                 LOG.debug("Download thread #{} received request url: {}",
-                    Thread.currentThread().getName(), request.getTargetUrl().toString());
+                    Thread.currentThread().getName(), request.getRequestTarget().toString());
 
                 Response response;
                 try {
@@ -189,7 +189,7 @@ public class ConcurrentCrawler extends Crawler {
                         queue.notifyAll();
                     }
                 } catch (IOException e) {
-                    LOG.error("Unexpected exception occurred when requesting url: " + request.getTargetUrl(), e);
+                    LOG.error("Unexpected exception occurred when requesting url: " + request.getRequestTarget(), e);
                     // Push back the request to retry later
                     synchronized (scheduler) {
                         scheduler.push(request);
@@ -226,7 +226,7 @@ public class ConcurrentCrawler extends Crawler {
                     }
                 }
                 LOG.debug("Process thread #{} received response from url: {}",
-                    Thread.currentThread().getName(), response.getRequest().getTargetUrl().toString());
+                    Thread.currentThread().getName(), response.getRequest().getRequestTarget().toString());
 
                 ResultItems resultItems = null;
                 for (PageProcessor processor : processors) {

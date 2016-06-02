@@ -15,7 +15,7 @@
   <dependencies>
     <dependency>
       <groupId>com.mrdai.crawly</groupId>
-      <artifactId>crawly-core</artifactId>
+      <artifactId>crawly</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

@@ -171,10 +171,10 @@ public class Crawler {
         while (request != null) {
             Response response;
             try {
-                LOG.info("Requesting url: {}", request.getTargetUrl().toString());
+                LOG.info("Executing request: {}", request.toString());
                 response = downloader.download(request);
             } catch (IOException e) {
-                LOG.error("Unexpected exception occurred when requesting url: " + request.getTargetUrl(), e);
+                LOG.error("Unexpected exception occurred when executing request: " + request, e);
                 // Push back the request to retry later
                 scheduler.push(request);
                 continue;
