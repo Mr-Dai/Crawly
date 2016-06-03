@@ -1,74 +1,51 @@
 package com.mrdai.crawly.network.http;
 
 import com.mrdai.crawly.network.Request;
+import org.apache.http.client.methods.HttpUriRequest;
 
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
- * A {@code HttpRequest} is simply a web request conformed to Http protocol.
- * <p>
- * {@code Request} is just a simple container, which should not be reused for multiple http requests,
- * as it is not thread-safe and might cause many problems.
+ * A request message from a client to a server includes, within the
+ * first line of that message, the method to be applied to the resource,
+ * the identifier of the resource, and the protocol version in use.
+ * <pre>
+ *      Request       = Request-Line
+ *                      *(( general-header
+ *                       | request-header
+ *                       | entity-header ) CRLF)
+ *                      CRLF
+ *                      [ message-body ]
+ * </pre>
  *
- * @author Mr-Dai
  * @since 0.1
  */
-public class HttpRequest implements Request {
-    private final String httpMethod;
-    private final URI requestTarget;
-    private final Map<String, String> headers = new HashMap<>();
-    private String message = "";
+public interface HttpRequest extends HttpMessage, Request {
+    /**
+     * Returns the HTTP method this request uses, such as {@code GET},
+     * {@code PUT}, {@code POST}, or other.
+     */
+    String getMethod();
 
-    public HttpRequest(URI requestTarget) {
-        this(HttpMethod.GET, requestTarget);
-    }
+    /**
+     * Returns the URI this request uses, such as
+     * {@code http://example.org/path/to/file}.
+     * <p>
+     * Note that the URI may be absolute URI (as above) or may be a relative URI.
+     * </p>
+     * <p>
+     * Implementations are encouraged to return
+     * the URI that was initially requested.
+     * </p>
+     * <p>
+     * To find the final URI after any redirects have been processed,
+     * please see the section entitled
+     * <a href="http://hc.apache.org/httpcomponents-client-ga/tutorial/html/fundamentals.html#d4e205">HTTP execution context</a>
+     * in the
+     * <a href="http://hc.apache.org/httpcomponents-client-ga/tutorial/html">HttpClient Tutorial</a>
+     * </p>
+     */
+    URI getRequestTarget();
 
-    public HttpRequest(String httpMethod, URI requestTarget) {
-        this.httpMethod = httpMethod;
-        this.requestTarget = requestTarget;
-    }
-
-    public Map<String, String> getHeaders() {
-        return headers;
-    }
-
-    public String addHeader(String key, String value) {
-        return headers.put(key, value);
-    }
-
-    public String getHeader(String key) {
-        return headers.get(key);
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public URI getRequestTarget() {
-        return requestTarget;
-    }
-
-    public String getHttpMethod() {
-        return httpMethod;
-    }
-
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        // Request line
-        builder.append(httpMethod).append(' ').append(requestTarget.toString()).append(" HTTP/1.1\r\n");
-        // Headers
-        for (Map.Entry<String, String> header : headers.entrySet())
-            builder.append(header.getKey()).append(':').append(header.getValue()).append("\r\n");
-        // Empty line
-        builder.append("\r\n");
-        // Message body
-        builder.append(message);
-        return builder.toString();
-    }
+    HttpUriRequest toApache();
 }

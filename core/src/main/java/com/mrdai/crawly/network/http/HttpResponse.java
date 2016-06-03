@@ -1,62 +1,51 @@
 package com.mrdai.crawly.network.http;
 
-import com.mrdai.crawly.network.Request;
 import com.mrdai.crawly.network.Response;
+import org.apache.http.HttpEntity;
+import org.apache.http.ProtocolVersion;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+/**
+ * After receiving and interpreting a request message, a server responds
+ * with an HTTP response message.
+ * <pre>
+ *     Response      = Status-Line
+ *                     *(( general-header
+ *                      | response-header
+ *                      | entity-header ) CRLF)
+ *                     CRLF
+ *                     [ message-body ]
+ * </pre>
+ *
+ * @since 0.1
+ */
+public interface HttpResponse extends HttpMessage, Response {
+    ProtocolVersion getProtocolVersion();
 
-public class HttpResponse implements Response {
-    private final Request request;
-    private final int statusCode;
-    private final Map<String, String> responseHeaders;
-    private final String message;
+    int getStatusCode();
 
-    public HttpResponse(Request request, Map<String, String> responseHeaders, String message) {
-        this(request, 0, responseHeaders, message);
-    }
-
-    public HttpResponse(Request request, int statusCode,
-                    Map<String, String> responseHeaders,
-                    String message) {
-        if (!(request instanceof HttpRequest))
-            throw new IllegalArgumentException("The given request's type is not HttpRequest, which is invalid!");
-        this.request = request;
-        this.statusCode = statusCode;
-        this.responseHeaders = Collections.unmodifiableMap(new HashMap<>(responseHeaders));
-        this.message = message;
-    }
+    String getReason();
 
     /**
-     * Returns the original {@code Request} corresponding to this {@code Response}.
-     * @return the original {@code Request} corresponding to this {@code Response}.
+     * Obtains the message entity of this response, if any.
+     * The entity is provided by calling {@link #setEntity setEntity}.
+     *
+     * @return  the response entity, or
+     *          {@code null} if there is none
      */
-    public Request getRequest() {
-        return request;
-    }
+    HttpEntity getEntity();
 
     /**
-     * Returns the status code of this {@code Response}; returns {@code 0} if it is not set.
-     * @return the status code of this {@code Response}; {@code 0} if it is not set.
+     * Associates a response entity with this response.
+     * <p>
+     * Please note that if an entity has already been set for this response and it depends on
+     * an input stream ({@link HttpEntity#isStreaming()} returns {@code true}),
+     * it must be fully consumed in order to ensure release of resources.
+     *
+     * @param entity    the entity to associate with this response, or
+     *                  {@code null} to unset
+     *
+     * @see HttpEntity#isStreaming()
+     * @see org.apache.http.util.EntityUtils#updateEntity(org.apache.http.HttpResponse, HttpEntity)
      */
-    public int getStatusCode() {
-        return statusCode;
-    }
-
-    /**
-     * Returns a {@code Map} representing the headers of this {@code Response}.
-     * @return a {@code Map} representing the headers of this {@code Response}.
-     */
-    public Map<String, String> getResponseHeaders() {
-        return responseHeaders;
-    }
-
-    /**
-     * Returns the message body of this {@code Response}.
-     * @return the message body of this {@code Response}.
-     */
-    public String getMessage() {
-        return message;
-    }
+    void setEntity(HttpEntity entity);
 }

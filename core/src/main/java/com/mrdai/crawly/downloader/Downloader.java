@@ -1,7 +1,7 @@
 package com.mrdai.crawly.downloader;
 
-import com.mrdai.crawly.network.Response;
 import com.mrdai.crawly.network.Request;
+import com.mrdai.crawly.network.Response;
 
 import java.io.IOException;
 

@@ -1,9 +1,9 @@
 package com.mrdai.crawly.examples.bing;
 
 import com.mrdai.crawly.ResultItems;
+import com.mrdai.crawly.network.Response;
 import com.mrdai.crawly.network.http.HttpResponse;
 import com.mrdai.crawly.processor.PageProcessor;
-import com.mrdai.crawly.network.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -11,8 +11,10 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class BingSearchResultProcessor implements PageProcessor {
     private static final Logger LOG = LoggerFactory.getLogger(BingSearchResultProcessor.class);
@@ -29,7 +31,15 @@ public class BingSearchResultProcessor implements PageProcessor {
         LOG.info("Processing response from " + response.getRequest().getRequestTarget().toString());
         HttpResponse hResponse = (HttpResponse) response;
 
-        Document document = Jsoup.parse(hResponse.getMessage());
+        StringBuilder contentBuilder = new StringBuilder();
+        try (Scanner scan = new Scanner(hResponse.getEntity().getContent())) {
+            while (scan.hasNextLine()) {
+                contentBuilder.append(scan.nextLine());
+                contentBuilder.append("\r\n");
+            }
+        } catch (IOException e) {}
+
+        Document document = Jsoup.parse(contentBuilder.toString());
         Elements resultEntries = document.select("#b_results .b_algo");
         LOG.debug("Fetched {} list items.", resultEntries.size());
 

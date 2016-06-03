@@ -12,8 +12,11 @@ public class BingCrawler {
         crawler.addProcessor(new BingSearchResultProcessor());
         crawler.addStartRequest(new BingSearchRequest("jquery"));
         crawler.addStartRequest(new BingSearchRequest("baidu"));
+        crawler.addStartRequest(new BingSearchRequest("crawly"));
+        crawler.addStartRequest(new BingSearchRequest("log4j"));
+        crawler.addStartRequest(new BingSearchRequest("Goblin", "vs", "Gnome"));
         crawler.addStartRequest(new BingSearchRequest("Meow", "Meow"));
-        // Pipeline is not needed. Extracted result will be logged by `BingSearchResultProcessor`
+        // Pipeline is not needed. Extracted results will be logged by `BingSearchResultProcessor`
 
         crawler.start();
     }
