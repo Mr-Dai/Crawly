@@ -103,12 +103,16 @@ public class ConcurrentCrawler extends Crawler {
 
         int i;
         // Initialize download threads
-        for (i = 0; i < downloadThreadNum; i++)
+        for (i = 0; i < downloadThreadNum; i++) {
             threads[i] = new Thread(new Download(), String.valueOf(i + 1));
+            threads[i].setDaemon(true);
+        }
 
         // Initialize download threads
-        for (; i < threads.length; i++)
+        for (; i < threads.length; i++) {
             threads[i] = new Thread(new Process(), String.valueOf(i - downloadThreadNum + 1));
+            threads[i].setDaemon(true);
+        }
     }
 
     /**

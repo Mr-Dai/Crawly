@@ -3,6 +3,7 @@ package com.mrdai.crawly.downloader;
 import com.mrdai.crawly.network.Request;
 import com.mrdai.crawly.network.Response;
 
+import java.io.Closeable;
 import java.io.IOException;
 
 /**
@@ -21,7 +22,7 @@ import java.io.IOException;
  * @author Mr-Dai
  * @since 0.1
  */
-public interface Downloader {
+public interface Downloader extends Closeable {
     /**
      * Returns if the downloader can handle the given {@code Request}.
      *

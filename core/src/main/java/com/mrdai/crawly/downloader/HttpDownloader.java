@@ -55,4 +55,6 @@ public class HttpDownloader implements Downloader {
         return result;
     }
 
+    @Override
+    public void close() throws IOException {}
 }

@@ -209,6 +209,12 @@ public class Crawler {
      * This method will be invoked at the end of {@link #start()}.
      */
     protected void shutdown() {
+        try {
+            downloader.close();
+        } catch (IOException e) {
+            LOG.error("Failed to close downloader " + downloader, e);
+        }
+
         for (Pipeline pipeline : pipelines) {
             try {
                 pipeline.close();
