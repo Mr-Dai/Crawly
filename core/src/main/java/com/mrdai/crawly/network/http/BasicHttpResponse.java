@@ -2,6 +2,7 @@ package com.mrdai.crawly.network.http;
 
 import com.mrdai.crawly.network.Request;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpVersion;
 import org.apache.http.ProtocolVersion;
 
 /**
@@ -17,14 +18,18 @@ public class BasicHttpResponse extends AbstractHttpMessage implements HttpRespon
     private HttpEntity entity;
 
     /**
-     * Creates a response from elements of a status line.
-     * The response will not have a reason phrase catalog and
-     * use the system default locale.
+     * Creates a response from elements of a status line and its corresponding request.
+     * <p>
+     * Convenient constants for protocol version and status code can be found in
+     * {@link HttpVersion} and {@link StatusCode}.
      *
-     * @param ver       the protocol version of the response
-     * @param code      the status code of the response
-     * @param reason    the reason phrase to the status code, or
-     *                  {@code null}
+     * @param request the corresponding request.
+     * @param ver the protocol version of the response.
+     * @param code the status code of the response.
+     * @param reason the reason phrase to the status code, or {@code null}.
+     *
+     * @see HttpVersion
+     * @see StatusCode
      */
     public BasicHttpResponse(Request request, final ProtocolVersion ver, final int code, final String reason) {
         this.request = request;
@@ -59,12 +64,12 @@ public class BasicHttpResponse extends AbstractHttpMessage implements HttpRespon
     }
 
     @Override
-    public String toString() {
-        return ver.toString() + ' ' + statusCode + ' ' + reason;
+    public Request getRequest() {
+        return request;
     }
 
     @Override
-    public Request getRequest() {
-        return request;
+    public String toString() {
+        return ver.toString() + ' ' + statusCode + ' ' + reason;
     }
 }

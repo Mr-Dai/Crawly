@@ -13,6 +13,7 @@ The section *Future Milestones* lists all the features will be added in the futu
 ## Future Milestones
 
 - [ ] Add support for other network protocols (FTP, SMTP, POP3, etc.).
+- [ ] Restart worker threads of `ConcurrentCrawler` when exception occurred.
 - [ ] Add support for Proxy (HTTP and SOCKS).
 - [ ] Add support for Rate Limit.
 - [ ] Change the LICENSE.

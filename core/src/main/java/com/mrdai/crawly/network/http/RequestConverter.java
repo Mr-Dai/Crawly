@@ -7,9 +7,20 @@ import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 
+/**
+ * Utility class for converting the request classes of this framework to those of
+ * Apache HttpClient.
+ */
 public final class RequestConverter {
     private static final Logger LOG = LoggerFactory.getLogger(RequestConverter.class);
 
+    /**
+     * Converts the given {@link HttpRequest com.mrdai.crawly.network.http.HttpRequest}
+     * to {@link HttpUriRequest org.apache.http.client.methods.HttpUriRequest}.
+     *
+     * @param request the given request.
+     * @return the converted result.
+     */
     public static HttpUriRequest toApache(HttpRequest request) {
         LOG.debug("Trying to convert " + request);
         HttpUriRequest result;

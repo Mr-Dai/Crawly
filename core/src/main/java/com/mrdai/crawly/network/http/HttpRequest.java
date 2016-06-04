@@ -17,6 +17,12 @@ import java.net.URI;
  *                      CRLF
  *                      [ message-body ]
  * </pre>
+ * Crawly uses the {@link #toString()} method of this interface to log its information,
+ * implementation classes of this interface should provide a human-readable string representation
+ * by overriding {@link #toString()}. The basic implementation of this interface, being
+ * {@link BasicHttpRequest}, has already provided a simple implementation of {@link #toString()}.
+ *
+ * @see BasicHttpRequest
  *
  * @since 0.1
  */
