@@ -1,7 +1,5 @@
 package com.mrdai.crawly.network;
 
-import java.net.URI;
-
 /**
  * <p>
  *     A {@code Request} represents a target web site for crawler to fetch. Essentially, it stands for a
@@ -16,7 +14,5 @@ import java.net.URI;
  * @since 0.1
  */
 public interface Request {
-    URI getRequestTarget();
-
     String toString();
 }
