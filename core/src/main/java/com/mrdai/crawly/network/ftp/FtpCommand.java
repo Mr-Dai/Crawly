@@ -3,25 +3,39 @@ package com.mrdai.crawly.network.ftp;
 import com.mrdai.crawly.network.Request;
 import org.apache.commons.net.ftp.FTPCmd;
 
+import java.net.InetSocketAddress;
+import java.net.URI;
+
 /**
  * An FTP command will be sent to the FTP server via the control connection, and
  * the FTP server should issue an FTP reply. Commonly, an FTP command is made up
  * of the {@code COMMAND} string and the {@code Parameters} string. The two getter
  * methods defined in this interface return the two fields respectively.
+ * <p>
+ * As the simplest FTP command implementation, the default FTP downloader will only
+ * handle instances of this class via control connection, i.e. expecting server responses
+ * only on control connection. If the FTP command you want to send involves data connection
+ * or you want more detailed support for some specific FTP command, please refer to the
+ * subclasses of this class.
  *
  * @see FtpReply
  */
 public class FtpCommand implements Request {
+    private final InetSocketAddress host;
     private final String command;
     private final String params;
+
+    FtpCommand(InetSocketAddress host) {
+        this(host, "", null);
+    }
 
     /**
      * Creates an {@code FtpCommand} with the given command.
      *
      * @param command the given command.
      */
-    public FtpCommand(FTPCmd command) {
-        this(command.getCommand());
+    public FtpCommand(InetSocketAddress host, FTPCmd command) {
+        this(host, command.getCommand());
     }
 
     /**
@@ -30,22 +44,24 @@ public class FtpCommand implements Request {
      * Convenient constants for standardized FTP commands can be found in
      * {@link org.apache.commons.net.ftp.FTPCmd FTPCmd}.
      *
+     * @param host the target server to which this command should be sent to.
      * @param command the given command string.
      *
      * @see org.apache.commons.net.ftp.FTPCmd
      */
-    public FtpCommand(String command) {
-        this(command, null);
+    public FtpCommand(InetSocketAddress host, String command) {
+        this(host, command, null);
     }
 
     /**
      * Creates an {@code FtpCommand} with the given command and parameters string.
      *
+     * @param host the target server to which this command should be sent to.
      * @param command the given command.
      * @param params the given parameters string.
      */
-    public FtpCommand(FTPCmd command, String params) {
-        this(command.getCommand(), params);
+    public FtpCommand(InetSocketAddress host, FTPCmd command, String params) {
+        this(host, command.getCommand(), params);
     }
 
     /**
@@ -54,12 +70,14 @@ public class FtpCommand implements Request {
      * Convenient constants for standardized FTP commands can be found in
      * {@link org.apache.commons.net.ftp.FTPCmd FTPCmd}.
      *
+     * @param host the target server to which this command should be sent to.
      * @param command the given command string.
      * @param params the given parameters string.
      *
      * @see org.apache.commons.net.ftp.FTPCmd
      */
-    public FtpCommand(String command, String params) {
+    public FtpCommand(InetSocketAddress host, String command, String params) {
+        this.host = host;
         this.command = command;
         this.params = params;
     }
@@ -83,6 +101,14 @@ public class FtpCommand implements Request {
      */
     public String getParameters() {
         return params;
+    }
+
+    /**
+     * Returns the target server of this {@code FtpCommand}.
+     * @return the target server of this {@code FtpCommand}.
+     */
+    public InetSocketAddress getHost() {
+        return host;
     }
 
     @Override
