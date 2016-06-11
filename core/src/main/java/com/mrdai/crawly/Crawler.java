@@ -76,33 +76,37 @@ public class Crawler {
     private final AtomicInteger state = new AtomicInteger();
 
     protected Scheduler scheduler;
-    protected Downloader downloader;
+    protected List<Downloader> downloaders;
     protected List<PageProcessor> processors;
     protected List<Pipeline> pipelines;
 
+
+
+    Crawler() {
+        this(null);
+    }
+
     /**
-     * <p>
-     * Constructs a {@code Crawler} without setting its {@code Scheduler} and {@code Downloader}.
-     * </p>
-     * <p>
-     * Do not use this constructor if unnecessary, use {@link #Crawler(Scheduler, Downloader)} instead.
-     * </p>
+     * Constructs a {@code Crawler} with given {@code Scheduler}.
+     *
+     * @param scheduler the given {@code Scheduler}.
      */
-    public Crawler() {
-        this(null, null);
+    public Crawler(Scheduler scheduler) {
+        this.scheduler = scheduler;
+        downloaders = new ArrayList<>();
+        processors = new ArrayList<>();
+        pipelines = new ArrayList<>();
     }
 
     /**
      * Constructs a {@code Crawler} with given {@code Scheduler} and {@code Downloader}.
      *
-     * @param scheduler  the {@code Scheduler} to be used by the new {@code Crawler}
-     * @param downloader the {@code Downloader} to be used by the new {@code Crawler}
+     * @param scheduler  the given {@code Scheduler}.
+     * @param downloader the given {@code Downloader}.
      */
     public Crawler(Scheduler scheduler, Downloader downloader) {
-        this.scheduler = scheduler;
-        this.downloader = downloader;
-        processors = new ArrayList<>();
-        pipelines = new ArrayList<>();
+        this(scheduler);
+        addDownloader(downloader);
     }
 
     /**
@@ -153,7 +157,8 @@ public class Crawler {
      * This method will be invoked at the start of the {@link #start()} method.
      */
     protected void initialize() {
-        // Lock `processors` and `pipelines`
+        // Lock `downloaders`, `processors` and `pipelines`
+        downloaders = Collections.unmodifiableList(downloaders);
         processors = Collections.unmodifiableList(processors);
         pipelines = Collections.unmodifiableList(pipelines);
     }
@@ -169,16 +174,26 @@ public class Crawler {
     protected void run() {
         Request request = scheduler.poll();
         while (request != null) {
-            Response response;
+            Response response = null;
             try {
                 LOG.info("Executing request: {}", request.toString());
-                response = downloader.download(request);
+                for (Downloader downloader : downloaders) {
+                    if (downloader.supports(request)) {
+                        response = downloader.download(request);
+                        break;
+                    }
+                }
             } catch (IOException e) {
                 LOG.error("Unexpected exception occurred when executing request: " + request, e);
                 // Push back the request to retry later
                 scheduler.push(request);
                 continue;
             }
+            if (response == null) {
+                LOG.error("Supported downloader not found for request: {}.", request);
+                continue;
+            }
+
             ResultItems resultItems = null;
             for (PageProcessor processor : processors) {
                 if (processor.supports(response)) {
@@ -191,15 +206,16 @@ public class Crawler {
                 continue;
             }
 
-            for (Request addedRequest : resultItems.getAddedRequests())
-                scheduler.push(addedRequest);
-
             // Go through pipelines
             for (Pipeline pipeline : pipelines) {
                 if (!pipeline.process(resultItems)) {
                     break;
                 }
             }
+
+            for (Request addedRequest : resultItems.getAddedRequests())
+                scheduler.push(addedRequest);
+
             request = scheduler.poll();
         }
     }
@@ -209,10 +225,12 @@ public class Crawler {
      * This method will be invoked at the end of {@link #start()}.
      */
     protected void shutdown() {
-        try {
-            downloader.close();
-        } catch (IOException e) {
-            LOG.error("Failed to close downloader " + downloader, e);
+        for (Downloader downloader : downloaders) {
+            try {
+                downloader.close();
+            } catch (IOException e) {
+                LOG.error("Failed to close downloader " + downloader, e);
+            }
         }
 
         for (Pipeline pipeline : pipelines) {
@@ -281,18 +299,18 @@ public class Crawler {
     /**
      * Returns the {@code Downloader} used by this {@code Crawler}
      */
-    public Downloader getDownloader() {
-        return downloader;
+    public List<Downloader> getDownloaders() {
+        return downloaders;
     }
 
     /**
-     * Sets the {@code Downloader} of this {@code Crawler}
+     * Adds the given {@code Downloader} to this {@code Crawler}
      *
      * @throws IllegalStateException if the {@code Crawler} has already started
      */
-    public void setDownloader(Downloader downloader) {
+    public void addDownloader(Downloader downloader) {
         assertInitializing("Cannot set a new downloader as the crawler has already started.");
-        this.downloader = downloader;
+        this.downloaders.add(downloader);
     }
 
     /**

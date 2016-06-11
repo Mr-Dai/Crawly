@@ -12,12 +12,14 @@ The section *Future Milestones* lists all the features will be added in the futu
 
 ## Future Milestones
 
-- [ ] Add support for other network protocols (FTP, SMTP, POP3, etc.).
+- [ ] Add support for FTP.
 - [ ] Restart worker threads of `ConcurrentCrawler` when exception occurred.
+- [ ] Add test cases.
 - [ ] Add support for Proxy (HTTP and SOCKS).
 - [ ] Add support for Rate Limit.
+- [ ] Add support for SMTP, POP3 and IMAP.
 - [ ] Change the LICENSE.
 - [ ] Release 0.1.
-- [ ] Add more example crawlers.
+- [ ] Add more example crawlers and refactor the framework based on use experience.
 - [ ] Release 0.2.
 - [ ] Distributed crawler.

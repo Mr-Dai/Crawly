@@ -2,6 +2,7 @@ package com.mrdai.crawly.examples.bing;
 
 import com.mrdai.crawly.ResultItems;
 import com.mrdai.crawly.network.Response;
+import com.mrdai.crawly.network.http.HttpRequest;
 import com.mrdai.crawly.network.http.HttpResponse;
 import com.mrdai.crawly.processor.PageProcessor;
 import org.jsoup.Jsoup;
@@ -23,12 +24,13 @@ public class BingSearchResultProcessor implements PageProcessor {
     @Override
     public boolean supports(Response response) {
         return (response instanceof HttpResponse) &&
-                   response.getRequest().getRequestTarget().toString().startsWith(supportPrefix);
+                   (response.getRequest() instanceof HttpRequest) &&
+                   ((HttpRequest) response.getRequest()).getRequestTarget().toString().startsWith(supportPrefix);
     }
 
     @Override
     public ResultItems process(Response response) {
-        LOG.info("Processing response from " + response.getRequest().getRequestTarget().toString());
+        LOG.info("Processing response of requets {} " + response.getRequest());
         HttpResponse hResponse = (HttpResponse) response;
 
         StringBuilder contentBuilder = new StringBuilder();

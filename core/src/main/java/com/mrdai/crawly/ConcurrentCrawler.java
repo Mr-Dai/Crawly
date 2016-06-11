@@ -181,23 +181,29 @@ public class ConcurrentCrawler extends Crawler {
                         request = scheduler.poll();
                     }
                 }
-                LOG.debug("Download thread #{} received request url: {}",
-                    Thread.currentThread().getName(), request.getRequestTarget().toString());
+                LOG.debug("Download thread #{} received request : {}",
+                    Thread.currentThread().getName(), request);
 
-                Response response;
+                Response response = null;
                 try {
-                    response = downloader.download(request);
+                    LOG.info("Executing request: {}", request.toString());
+                    for (Downloader downloader : downloaders) {
+                        if (downloader.supports(request)) {
+                            response = downloader.download(request);
+                            break;
+                        }
+                    }
                     // Add the response to the queue and notify all waiting process threads.
                     synchronized (queue) {
                         queue.add(response);
                         queue.notifyAll();
                     }
                 } catch (IOException e) {
-                    LOG.error("Unexpected exception occurred when requesting url: " + request.getRequestTarget(), e);
-                    // Push back the request to retry later
-                    synchronized (scheduler) {
-                        scheduler.push(request);
-                    }
+                    LOG.error("Unexpected exception occurred when executing request: " + request, e);
+                }
+
+                if (response == null) {
+                    LOG.error("Supported downloader not found for request: {}", request);
                 }
             }
         }
@@ -229,8 +235,8 @@ public class ConcurrentCrawler extends Crawler {
                         response = queue.poll();
                     }
                 }
-                LOG.debug("Process thread #{} received response from url: {}",
-                    Thread.currentThread().getName(), response.getRequest().getRequestTarget().toString());
+                LOG.debug("Process thread #{} received response from request: {}",
+                    Thread.currentThread().getName(), response.getRequest());
 
                 ResultItems resultItems = null;
                 for (PageProcessor processor : processors) {
@@ -244,19 +250,19 @@ public class ConcurrentCrawler extends Crawler {
                     continue;
                 }
 
+                // Go through pipelines
+                for (Pipeline pipeline : pipelines) {
+                    if (!pipeline.process(resultItems)) {
+                        break;
+                    }
+                }
+
                 // Adds new requests to the scheduler and notify all waiting download threads.
                 synchronized (scheduler) {
                     for (Request addedRequest : resultItems.getAddedRequests())
                         scheduler.push(addedRequest);
                     if (!resultItems.getAddedRequests().isEmpty())
                         scheduler.notifyAll();
-                }
-
-                // Go through pipelines
-                for (Pipeline pipeline : pipelines) {
-                    if (!pipeline.process(resultItems)) {
-                        break;
-                    }
                 }
             }
         }
