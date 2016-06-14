@@ -12,7 +12,6 @@ The section *Future Milestones* lists all the features will be added in the futu
 
 ## Future Milestones
 
-- [ ] Add support for FTP.
 - [ ] Restart worker threads of `ConcurrentCrawler` when exception occurred.
 - [ ] Add test cases.
 - [ ] Add support for Proxy (HTTP and SOCKS).
