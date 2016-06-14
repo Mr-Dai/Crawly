@@ -46,11 +46,11 @@ public class BloomFilterScheduler extends FilterScheduler {
 
     @Override
     protected boolean shouldAdd(Request request) {
-        return !filter.mightContain(request.getRequestTarget().toString());
+        return !filter.mightContain(request.toString());
     }
 
     @Override
     protected void record(Request request) {
-        filter.put(request.getRequestTarget().toString());
+        filter.put(request.toString());
     }
 }

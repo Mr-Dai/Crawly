@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.InetSocketAddress;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,6 +68,9 @@ public class FtpDownloader implements Downloader {
             if (!client.isConnected()) {
                 LOG.info("The FTPClient is not connected. Connecting to {}.", host);
                 client.connect(host.getAddress(), host.getPort());
+                LOG.debug("Log in anonymously.");
+                client.login("anonymous", "https://github.com/Mr-Dai/Crawly");
+                LOG.debug("Server returned \"{}\".",  client.getReplyString().trim());
                 if (!FTPReply.isPositiveCompletion(client.getReplyCode())) {
                     LOG.warn("Failed to connect to target host {}. The server reply is: {} {}",
                         host, client.getReplyCode(), client.getReplyString());
@@ -79,16 +83,19 @@ public class FtpDownloader implements Downloader {
                 if (command.getCommand().equalsIgnoreCase(FTPCmd.MLST.getCommand())) {
                     LOG.debug("Issue MLST command: {}", command);
                     FTPFile file = client.mlistFile(command.getParameters());
+                    LOG.debug("Server returned {}.", file);
                     return new FtpFilesReply(command, client.getReplyCode(), file);
                 }
                 if (command.getCommand().equalsIgnoreCase(FTPCmd.MLSD.getCommand())) {
                     LOG.debug("Issue MLSD command: {}", command);
                     FTPFile[] files = client.mlistDir(command.getParameters());
+                    LOG.debug("Server returned {}.", Arrays.toString(files));
                     return new FtpFilesReply(command, client.getReplyCode(), files);
                 }
                 if (command.getCommand().equalsIgnoreCase(FTPCmd.LIST.getCommand())) {
                     LOG.debug("Issue LIST command: {}", command);
                     FTPFile[] files = client.listFiles(command.getParameters());
+                    LOG.debug("Server returned {}.", Arrays.toString(files));
                     return new FtpFilesReply(command, client.getReplyCode(), files);
                 }
 
@@ -129,9 +136,11 @@ public class FtpDownloader implements Downloader {
                     LOG.debug("Issue login request: {}", command);
                     LoginRequest lRe = (LoginRequest) command;
                     client.login(lRe.getUsername(), lRe.getPassword());
+                    LOG.debug("Server returned: {}.", client.getReplyString());
                 } else {
                     LOG.debug("Issue command FTP command: {}", command);
                     client.doCommand(command.getCommand(), command.getParameters());
+                    LOG.debug("Server returned: {}.", client.getReplyString());
                 }
             } catch (FTPConnectionClosedException e) {
                 LOG.warn("Remote server {}:{} closed the connection prematurely. Reconnect on next request.",

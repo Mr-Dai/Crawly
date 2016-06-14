@@ -13,7 +13,7 @@ public class FtpCrawler {
     public static void main(String[] args) {
         Crawler crawler = new Crawler(new QueueScheduler(), new FtpDownloader());
         crawler.addProcessor(new FtpTraverseProcessor());
-        crawler.addStartRequest(new FtpCommand(new InetSocketAddress("my.ss.sysu.edu.cn/~wh", 21), FTPCmd.MLSD));
+        crawler.addStartRequest(new FtpCommand(new InetSocketAddress("my.ss.sysu.edu.cn", 21), FTPCmd.LIST, "/~wh"));
         // Pipeline is not needed. Listing results will be logged by `FtpTraverseProcessor`
 
         crawler.start();

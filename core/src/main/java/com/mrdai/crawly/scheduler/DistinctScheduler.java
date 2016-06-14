@@ -22,11 +22,11 @@ public class DistinctScheduler extends FilterScheduler {
 
     @Override
     protected boolean shouldAdd(Request request) {
-        return !requestSet.contains(request.getRequestTarget().toString());
+        return !requestSet.contains(request.toString());
     }
 
     @Override
     protected void record(Request request) {
-        requestSet.add(request.getRequestTarget().toString());
+        requestSet.add(request.toString());
     }
 }
